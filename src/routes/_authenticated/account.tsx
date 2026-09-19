@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/account")({
       { property: "og:description", content: "Manage your Lift1 member details." },
     ],
   }),
-  component: Account;
+  component: Account,
 });
 
 function Account() {
