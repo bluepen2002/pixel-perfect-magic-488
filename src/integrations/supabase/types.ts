@@ -14,13 +14,123 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assistance_requests: {
+        Row: {
+          amount_requested: number
+          approved_amount: number | null
+          category: string
+          county: string | null
+          created_at: string
+          description: string
+          id: string
+          review_notes: string | null
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_requested: number
+          approved_amount?: number | null
+          category: string
+          county?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          review_notes?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_requested?: number
+          approved_amount?: number | null
+          category?: string
+          county?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          review_notes?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contributions: {
+        Row: {
+          amount_kes: number
+          created_at: string
+          id: string
+          method: string
+          reference: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_kes: number
+          created_at?: string
+          id?: string
+          method?: string
+          reference?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_kes?: number
+          created_at?: string
+          id?: string
+          method?: string
+          reference?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          county: string | null
+          created_at: string
+          first_name: string
+          id: string
+          last_name: string
+          phone: string | null
+          town: string | null
+          updated_at: string
+          verification_status: string
+        }
+        Insert: {
+          county?: string | null
+          created_at?: string
+          first_name?: string
+          id: string
+          last_name?: string
+          phone?: string | null
+          town?: string | null
+          updated_at?: string
+          verification_status?: string
+        }
+        Update: {
+          county?: string | null
+          created_at?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          phone?: string | null
+          town?: string | null
+          updated_at?: string
+          verification_status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      community_stats: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
