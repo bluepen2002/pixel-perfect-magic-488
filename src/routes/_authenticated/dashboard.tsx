@@ -42,11 +42,11 @@ function Dashboard() {
         .from("profiles")
         .insert({
           id: user.id,
-          first_name: (meta.first_name as string) ?? (meta.name as string) ?? "",
-          last_name: (meta.last_name as string) ?? "",
-          phone: (meta.phone as string) ?? null,
-          county: (meta.county as string) ?? null,
-          town: (meta.town as string) ?? null,
+          first_name: (meta['first_name'] as string) ?? (meta['name'] as string) ?? "",
+          last_name: (meta['last_name'] as string) ?? "",
+          phone: (meta['phone'] as string) ?? null,
+          county: (meta['county'] as string) ?? null,
+          town: (meta['town'] as string) ?? null,
         })
         .select()
         .maybeSingle();
