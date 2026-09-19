@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { AppShell } from "@/components/lift1/AppShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -67,10 +66,6 @@ function Dashboard() {
       return { contributions: contributions.data, requests: requests.data };
     },
   });
-
-  useEffect(() => {
-    if (profile.data) void 0;
-  }, [profile.data]);
 
   const myTotal = (mine.data?.contributions ?? []).reduce(
     (sum, c) => sum + Number(c.amount_kes),
