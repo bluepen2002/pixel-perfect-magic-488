@@ -33,6 +33,31 @@ export const REQUEST_STATUS_LABELS: Record<string, string> = {
   DECLINED: "Not approved",
 };
 
+export const REQUEST_STATUSES = [
+  "SUBMITTED",
+  "UNDER_REVIEW",
+  "NEEDS_MORE_INFO",
+  "APPROVED",
+  "DISBURSED",
+  "DECLINED",
+] as const;
+
+export function statusTone(status: string) {
+  switch (status) {
+    case "APPROVED":
+    case "DISBURSED":
+      return "bg-primary/10 text-primary";
+    case "DECLINED":
+      return "bg-destructive/10 text-destructive";
+    case "NEEDS_MORE_INFO":
+      return "bg-accent/20 text-accent-foreground";
+    case "UNDER_REVIEW":
+      return "bg-secondary text-secondary-foreground";
+    default:
+      return "bg-muted text-muted-foreground";
+  }
+}
+
 export const COUNTIES = [
   "Baringo", "Bomet", "Bungoma", "Busia", "Elgeyo-Marakwet", "Embu", "Garissa",
   "Homa Bay", "Isiolo", "Kajiado", "Kakamega", "Kericho", "Kiambu", "Kilifi",
