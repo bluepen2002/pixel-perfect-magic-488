@@ -89,6 +89,153 @@ export type Database = {
         }
         Relationships: []
       }
+      demo_contributions: {
+        Row: {
+          amount_kes: number
+          county: string
+          created_at: string
+          id: string
+          member_name: string
+          method: string
+          reference: string | null
+        }
+        Insert: {
+          amount_kes: number
+          county: string
+          created_at?: string
+          id?: string
+          member_name: string
+          method?: string
+          reference?: string | null
+        }
+        Update: {
+          amount_kes?: number
+          county?: string
+          created_at?: string
+          id?: string
+          member_name?: string
+          method?: string
+          reference?: string | null
+        }
+        Relationships: []
+      }
+      demo_members: {
+        Row: {
+          county: string
+          first_name: string
+          id: string
+          joined_at: string
+          last_name: string
+          phone: string
+          subcounty: string
+          verification_status: string
+          village: string
+          ward: string
+        }
+        Insert: {
+          county: string
+          first_name: string
+          id?: string
+          joined_at?: string
+          last_name: string
+          phone: string
+          subcounty: string
+          verification_status?: string
+          village: string
+          ward: string
+        }
+        Update: {
+          county?: string
+          first_name?: string
+          id?: string
+          joined_at?: string
+          last_name?: string
+          phone?: string
+          subcounty?: string
+          verification_status?: string
+          village?: string
+          ward?: string
+        }
+        Relationships: []
+      }
+      demo_requests: {
+        Row: {
+          amount_requested: number
+          approved_amount: number | null
+          category: string
+          county: string
+          created_at: string
+          description: string
+          id: string
+          member_name: string
+          review_notes: string | null
+          status: string
+          subcounty: string | null
+          title: string
+          village: string | null
+          ward: string | null
+        }
+        Insert: {
+          amount_requested: number
+          approved_amount?: number | null
+          category: string
+          county: string
+          created_at?: string
+          description: string
+          id?: string
+          member_name: string
+          review_notes?: string | null
+          status?: string
+          subcounty?: string | null
+          title: string
+          village?: string | null
+          ward?: string | null
+        }
+        Update: {
+          amount_requested?: number
+          approved_amount?: number | null
+          category?: string
+          county?: string
+          created_at?: string
+          description?: string
+          id?: string
+          member_name?: string
+          review_notes?: string | null
+          status?: string
+          subcounty?: string | null
+          title?: string
+          village?: string | null
+          ward?: string | null
+        }
+        Relationships: []
+      }
+      kenya_locations: {
+        Row: {
+          county: string
+          created_at: string
+          id: string
+          subcounty: string
+          village: string
+          ward: string
+        }
+        Insert: {
+          county: string
+          created_at?: string
+          id?: string
+          subcounty: string
+          village: string
+          ward: string
+        }
+        Update: {
+          county?: string
+          created_at?: string
+          id?: string
+          subcounty?: string
+          village?: string
+          ward?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           county: string | null
@@ -125,15 +272,111 @@ export type Database = {
         }
         Relationships: []
       }
+      request_status_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          note: string | null
+          request_id: string
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          request_id: string
+          status: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          request_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "request_status_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "assistance_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transparency_content: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          published: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          published?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
       community_stats: { Args: never; Returns: Json }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "reviewer" | "member"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -260,6 +503,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "reviewer", "member"],
+    },
   },
 } as const
