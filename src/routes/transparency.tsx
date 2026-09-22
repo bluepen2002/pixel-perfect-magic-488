@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Brand } from "@/components/lift1/Brand";
 import { Button } from "@/components/ui/button";
-import { LIFT1, formatKes } from "@/lib/lift1";
+import { formatKes } from "@/lib/lift1";
+import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -19,6 +21,8 @@ export const Route = createFileRoute("/transparency")({
         property: "og:description",
         content: "Open community numbers: contributions in, assistance out.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Transparency,
@@ -27,6 +31,18 @@ export const Route = createFileRoute("/transparency")({
 function Transparency() {
   const { data: stats, isLoading } = useCommunityStats();
   const { isAuthenticated } = useAuth();
+
+  const sections = useQuery({
+    queryKey: ["transparency-content"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("transparency_content")
+        .select("id, title, body, sort_order")
+        .order("sort_order");
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const rows = [
     { label: "Total contributed by members", value: formatKes(stats?.total_contributed) },
@@ -52,33 +68,31 @@ function Transparency() {
         <p className="eyebrow">Transparency</p>
         <h1 className="mt-2 text-3xl font-bold sm:text-4xl">The community numbers</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          Money contributed by the community is tracked separately from Lift1's operating
-          business revenue. Nothing is deducted from contributions unless it is disclosed here.
+          Money contributed by the community is tracked separately from Lift1's operating business
+          revenue. Nothing is deducted from contributions unless it is disclosed here.
         </p>
 
         <div className="surface-card mt-8 divide-y divide-border">
           {rows.map((row) => (
-            <div key={row.label} className="flex items-center justify-between gap-4 p-5">
+            <div
+              key={row.label}
+              className="flex items-center justify-between gap-4 p-4 sm:p-5"
+            >
               <span className="text-sm text-muted-foreground">{row.label}</span>
-              <span className="stat-number text-xl">{isLoading ? "—" : row.value}</span>
+              <span className="stat-number text-lg sm:text-xl">
+                {isLoading ? "—" : row.value}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="surface-card mt-6 p-5 text-sm text-muted-foreground">
-          <h2 className="text-base font-semibold text-foreground">Fund principles</h2>
-          <ul className="mt-3 list-disc space-y-1.5 pl-5">
-            <li>Assistance is needs-based and reviewed against published criteria.</li>
-            <li>No draws, winners or chance-based allocation of any kind.</li>
-            <li>
-              Platform fee is{" "}
-              {LIFT1.platformFeeEnabled
-                ? `${LIFT1.platformFeePercentage}% and shown on every contribution`
-                : "switched off — 0% is taken from contributions"}
-              .
-            </li>
-            <li>Every contribution and approved amount is recorded against a member account.</li>
-          </ul>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {(sections.data ?? []).map((section) => (
+            <div key={section.id} className="surface-card p-5">
+              <h2 className="text-base font-semibold">{section.title}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{section.body}</p>
+            </div>
+          ))}
         </div>
       </main>
     </div>

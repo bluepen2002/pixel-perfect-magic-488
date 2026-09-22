@@ -21,6 +21,9 @@ import { Route as AuthenticatedRequestRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminContributionsRouteImport } from './routes/_authenticated/admin/contributions'
 import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin/members'
+import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin/requests'
+import { Route as AuthenticatedAdminTransparencyRouteImport } from './routes/_authenticated/admin/transparency'
+import { Route as AuthenticatedRequestsIdRouteImport } from './routes/_authenticated/requests.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,6 +86,23 @@ const AuthenticatedAdminMembersRoute =
     path: '/members',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminRequestsRoute =
+  AuthenticatedAdminRequestsRouteImport.update({
+    id: '/requests',
+    path: '/requests',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminTransparencyRoute =
+  AuthenticatedAdminTransparencyRouteImport.update({
+    id: '/transparency',
+    path: '/transparency',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedRequestsIdRoute = AuthenticatedRequestsIdRouteImport.update({
+  id: '/requests/$id',
+  path: '/requests/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -95,6 +115,9 @@ export interface FileRoutesByFullPath {
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
+  '/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -107,6 +130,9 @@ export interface FileRoutesByTo {
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
+  '/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -122,6 +148,9 @@ export interface FileRoutesById {
   '/_authenticated/request': typeof AuthenticatedRequestRoute
   '/_authenticated/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
+  '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/_authenticated/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
+  '/_authenticated/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -137,6 +166,9 @@ export interface FileRouteTypes {
     | '/request'
     | '/admin/contributions'
     | '/admin/members'
+    | '/admin/requests'
+    | '/admin/transparency'
+    | '/requests/$id'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -149,6 +181,9 @@ export interface FileRouteTypes {
     | '/request'
     | '/admin/contributions'
     | '/admin/members'
+    | '/admin/requests'
+    | '/admin/transparency'
+    | '/requests/$id'
     | '/admin'
   id:
     | '__root__'
@@ -163,6 +198,9 @@ export interface FileRouteTypes {
     | '/_authenticated/request'
     | '/_authenticated/admin/contributions'
     | '/_authenticated/admin/members'
+    | '/_authenticated/admin/requests'
+    | '/_authenticated/admin/transparency'
+    | '/_authenticated/requests/$id'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -259,12 +297,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMembersRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/requests': {
+      id: '/_authenticated/admin/requests'
+      path: '/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/transparency': {
+      id: '/_authenticated/admin/transparency'
+      path: '/transparency'
+      fullPath: '/admin/transparency'
+      preLoaderRoute: typeof AuthenticatedAdminTransparencyRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/requests/$id': {
+      id: '/_authenticated/requests/$id'
+      path: '/requests/$id'
+      fullPath: '/requests/$id'
+      preLoaderRoute: typeof AuthenticatedRequestsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminContributionsRoute: typeof AuthenticatedAdminContributionsRoute
   AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
+  AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
+  AuthenticatedAdminTransparencyRoute: typeof AuthenticatedAdminTransparencyRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -272,6 +333,8 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
   {
     AuthenticatedAdminContributionsRoute: AuthenticatedAdminContributionsRoute,
     AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
+    AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
+    AuthenticatedAdminTransparencyRoute: AuthenticatedAdminTransparencyRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 
@@ -286,6 +349,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedContributeRoute: typeof AuthenticatedContributeRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedRequestRoute: typeof AuthenticatedRequestRoute
+  AuthenticatedRequestsIdRoute: typeof AuthenticatedRequestsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -294,6 +358,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContributeRoute: AuthenticatedContributeRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedRequestRoute: AuthenticatedRequestRoute,
+  AuthenticatedRequestsIdRoute: AuthenticatedRequestsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

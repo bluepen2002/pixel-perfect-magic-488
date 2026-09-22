@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { LIFT1 } from "@/lib/lift1";
 
-export function Brand({ to = "/" }: { to?: "/" | "/dashboard" }) {
+export function Brand({ to = "/" }: { to?: "/" | "/dashboard" | "/admin" }) {
   return (
     <Link to={to} className="flex items-center gap-2.5">
       <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-lift text-primary-foreground shadow-soft">

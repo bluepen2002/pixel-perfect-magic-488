@@ -76,11 +76,12 @@ function AdminMembers() {
 
   const setStatus = useMutation({
     mutationFn: async ({ row, status }: { row: Row; status: string }) => {
-      const table = row.sample ? "demo_members" : "profiles";
-      const { error } = await supabase
-        .from(table)
-        .update({ verification_status: status })
-        .eq("id", row.id);
+      const { error } = row.sample
+        ? await supabase
+            .from("demo_members")
+            .update({ verification_status: status })
+            .eq("id", row.id)
+        : await supabase.from("profiles").update({ verification_status: status }).eq("id", row.id);
       if (error) throw error;
     },
     onSuccess: () => {

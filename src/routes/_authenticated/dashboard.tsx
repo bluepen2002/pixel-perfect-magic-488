@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
-import { LIFT1, REQUEST_STATUS_LABELS, formatKes } from "@/lib/lift1";
+import { LIFT1, REQUEST_STATUS_LABELS, formatKes, statusTone } from "@/lib/lift1";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -80,67 +80,79 @@ function Dashboard() {
       </h1>
       <p className="mt-1.5 text-sm text-muted-foreground">{LIFT1.philosophy}</p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
         <StatCard label="Community fund" value={formatKes(stats?.total_contributed)} highlight />
         <StatCard label="People being lifted" value={String(stats?.people_lifted ?? 0)} />
         <StatCard label="Community members" value={String(stats?.members ?? 0)} />
         <StatCard label="My contributions" value={formatKes(myTotal)} />
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <div className="surface-card flex flex-col justify-between gap-4 p-5">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="surface-card flex flex-col justify-between gap-4 p-4 sm:p-5">
           <div>
             <h2 className="text-lg font-semibold">Lift someone today</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Give from {formatKes(LIFT1.baseContribution)}. Every shilling is recorded.
             </p>
           </div>
-          <Button asChild>
+          <Button asChild className="w-full sm:w-auto">
             <Link to="/contribute">Contribute</Link>
           </Button>
         </div>
-        <div className="surface-card flex flex-col justify-between gap-4 p-5">
+        <div className="surface-card flex flex-col justify-between gap-4 p-4 sm:p-5">
           <div>
             <h2 className="text-lg font-semibold">Need a lift?</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Tell us what you're facing. Requests are reviewed on need, never chance.
             </p>
           </div>
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" className="w-full sm:w-auto">
             <Link to="/request">Request a lift</Link>
           </Button>
         </div>
       </div>
 
-      <section className="mt-8">
+      <section className="mt-7">
         <h2 className="text-lg font-semibold">My assistance requests</h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Tap a request to follow the review and see the outcome.
+        </p>
         <div className="surface-card mt-3 divide-y divide-border">
           {(mine.data?.requests ?? []).length === 0 && (
-            <p className="p-5 text-sm text-muted-foreground">No requests yet.</p>
+            <p className="p-4 text-sm text-muted-foreground sm:p-5">No requests yet.</p>
           )}
           {(mine.data?.requests ?? []).map((r) => (
-            <div key={r.id} className="flex items-start justify-between gap-4 p-5">
-              <div>
-                <p className="font-semibold">{r.title}</p>
+            <Link
+              key={r.id}
+              to="/requests/$id"
+              params={{ id: r.id }}
+              className="flex flex-col gap-2 p-4 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-5"
+            >
+              <div className="min-w-0">
+                <p className="truncate font-semibold">{r.title}</p>
                 <p className="text-xs text-muted-foreground">
                   {r.category} · {formatKes(r.amount_requested)} ·{" "}
                   {new Date(r.created_at).toLocaleDateString("en-KE")}
                 </p>
               </div>
-              <Badge variant="secondary">{REQUEST_STATUS_LABELS[r.status] ?? r.status}</Badge>
-            </div>
+              <span
+                className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${statusTone(r.status)}`}
+              >
+                {REQUEST_STATUS_LABELS[r.status] ?? r.status}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-7">
         <h2 className="text-lg font-semibold">My contribution history</h2>
         <div className="surface-card mt-3 divide-y divide-border">
           {(mine.data?.contributions ?? []).length === 0 && (
-            <p className="p-5 text-sm text-muted-foreground">No contributions yet.</p>
+            <p className="p-4 text-sm text-muted-foreground sm:p-5">No contributions yet.</p>
           )}
           {(mine.data?.contributions ?? []).map((c) => (
-            <div key={c.id} className="flex items-center justify-between gap-4 p-5">
+            <div key={c.id} className="flex items-center justify-between gap-4 p-4 sm:p-5">
               <div>
                 <p className="font-semibold">{formatKes(c.amount_kes)}</p>
                 <p className="text-xs text-muted-foreground">

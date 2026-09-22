@@ -61,8 +61,8 @@ function Contribute() {
         business revenue.
       </p>
 
-      <div className="surface-card mt-6 max-w-xl p-6">
-        <div className="flex flex-wrap gap-2">
+      <div className="surface-card mt-5 max-w-xl p-4 sm:p-6">
+        <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
           {LIFT1.suggestedAmounts.map((value) => (
             <button
               key={value}
@@ -70,8 +70,8 @@ function Contribute() {
               onClick={() => setAmount(value)}
               className={
                 amount === value
-                  ? "rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
-                  : "rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary"
+                  ? "min-h-11 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+                  : "min-h-11 rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted-foreground transition-colors hover:bg-secondary"
               }
             >
               {formatKes(value)}
