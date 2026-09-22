@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
-import { LIFT1, REQUEST_STATUS_LABELS, formatKes } from "@/lib/lift1";
+import { LIFT1, REQUEST_STATUS_LABELS, formatKes, statusTone } from "@/lib/lift1";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -112,35 +112,47 @@ function Dashboard() {
         </div>
       </div>
 
-      <section className="mt-8">
+      <section className="mt-7">
         <h2 className="text-lg font-semibold">My assistance requests</h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Tap a request to follow the review and see the outcome.
+        </p>
         <div className="surface-card mt-3 divide-y divide-border">
           {(mine.data?.requests ?? []).length === 0 && (
-            <p className="p-5 text-sm text-muted-foreground">No requests yet.</p>
+            <p className="p-4 text-sm text-muted-foreground sm:p-5">No requests yet.</p>
           )}
           {(mine.data?.requests ?? []).map((r) => (
-            <div key={r.id} className="flex items-start justify-between gap-4 p-5">
-              <div>
-                <p className="font-semibold">{r.title}</p>
+            <Link
+              key={r.id}
+              to="/requests/$id"
+              params={{ id: r.id }}
+              className="flex flex-col gap-2 p-4 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-5"
+            >
+              <div className="min-w-0">
+                <p className="truncate font-semibold">{r.title}</p>
                 <p className="text-xs text-muted-foreground">
                   {r.category} · {formatKes(r.amount_requested)} ·{" "}
                   {new Date(r.created_at).toLocaleDateString("en-KE")}
                 </p>
               </div>
-              <Badge variant="secondary">{REQUEST_STATUS_LABELS[r.status] ?? r.status}</Badge>
-            </div>
+              <span
+                className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${statusTone(r.status)}`}
+              >
+                {REQUEST_STATUS_LABELS[r.status] ?? r.status}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className="mt-8">
+      <section className="mt-7">
         <h2 className="text-lg font-semibold">My contribution history</h2>
         <div className="surface-card mt-3 divide-y divide-border">
           {(mine.data?.contributions ?? []).length === 0 && (
-            <p className="p-5 text-sm text-muted-foreground">No contributions yet.</p>
+            <p className="p-4 text-sm text-muted-foreground sm:p-5">No contributions yet.</p>
           )}
           {(mine.data?.contributions ?? []).map((c) => (
-            <div key={c.id} className="flex items-center justify-between gap-4 p-5">
+            <div key={c.id} className="flex items-center justify-between gap-4 p-4 sm:p-5">
               <div>
                 <p className="font-semibold">{formatKes(c.amount_kes)}</p>
                 <p className="text-xs text-muted-foreground">
