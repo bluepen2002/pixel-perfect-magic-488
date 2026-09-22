@@ -84,7 +84,7 @@ function Account() {
       <p className="eyebrow">My account</p>
       <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">Your member details</h1>
 
-      <div className="surface-card mt-6 max-w-xl space-y-4 p-6">
+      <div className="surface-card mt-5 max-w-xl space-y-4 p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Verification status</span>
           <Badge variant="secondary">
@@ -92,7 +92,7 @@ function Account() {
           </Badge>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Field label="First name">
             <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
           </Field>
@@ -103,7 +103,7 @@ function Account() {
         <Field label="Phone number">
           <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
         </Field>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Field label="County">
             <Select value={county} onValueChange={setCounty}>
               <SelectTrigger>
@@ -123,7 +123,7 @@ function Account() {
           </Field>
         </div>
 
-        <Button className="w-full" onClick={() => save.mutate()} disabled={save.isPending}>
+        <Button size="lg" className="w-full" onClick={() => save.mutate()} disabled={save.isPending}>
           Save changes
         </Button>
       </div>

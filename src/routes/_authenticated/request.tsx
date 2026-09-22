@@ -80,7 +80,7 @@ function RequestLift() {
       </p>
 
       <form
-        className="surface-card mt-6 max-w-xl space-y-4 p-6"
+        className="surface-card mt-5 max-w-xl space-y-4 p-4 sm:p-6"
         onSubmit={(e) => {
           e.preventDefault();
           submit.mutate();
