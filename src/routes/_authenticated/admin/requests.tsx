@@ -33,7 +33,7 @@ export const Route = createFileRoute("/_authenticated/admin/requests")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AdminRequests;
+  component: AdminRequests,
 });
 
 type RequestRow = {
