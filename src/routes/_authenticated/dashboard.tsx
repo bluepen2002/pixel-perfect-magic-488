@@ -80,33 +80,33 @@ function Dashboard() {
       </h1>
       <p className="mt-1.5 text-sm text-muted-foreground">{LIFT1.philosophy}</p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
         <StatCard label="Community fund" value={formatKes(stats?.total_contributed)} highlight />
         <StatCard label="People being lifted" value={String(stats?.people_lifted ?? 0)} />
         <StatCard label="Community members" value={String(stats?.members ?? 0)} />
         <StatCard label="My contributions" value={formatKes(myTotal)} />
       </div>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <div className="surface-card flex flex-col justify-between gap-4 p-5">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="surface-card flex flex-col justify-between gap-4 p-4 sm:p-5">
           <div>
             <h2 className="text-lg font-semibold">Lift someone today</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Give from {formatKes(LIFT1.baseContribution)}. Every shilling is recorded.
             </p>
           </div>
-          <Button asChild>
+          <Button asChild className="w-full sm:w-auto">
             <Link to="/contribute">Contribute</Link>
           </Button>
         </div>
-        <div className="surface-card flex flex-col justify-between gap-4 p-5">
+        <div className="surface-card flex flex-col justify-between gap-4 p-4 sm:p-5">
           <div>
             <h2 className="text-lg font-semibold">Need a lift?</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Tell us what you're facing. Requests are reviewed on need, never chance.
             </p>
           </div>
-          <Button asChild variant="outline">
+          <Button asChild variant="outline" className="w-full sm:w-auto">
             <Link to="/request">Request a lift</Link>
           </Button>
         </div>
