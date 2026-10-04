@@ -11,6 +11,18 @@ export const LIFT1 = {
   platformFeePercentage: 0,
 };
 
+export const RECURRENCE_OPTIONS = [
+  { value: "ONE_TIME", label: "One time" },
+  { value: "WEEKLY", label: "Every week" },
+  { value: "MONTHLY", label: "Every month" },
+] as const;
+
+export const RECURRENCE_LABELS: Record<string, string> = {
+  ONE_TIME: "One time",
+  WEEKLY: "Weekly",
+  MONTHLY: "Monthly",
+};
+
 export const REQUEST_CATEGORIES = [
   "Emergency",
   "Medical",
