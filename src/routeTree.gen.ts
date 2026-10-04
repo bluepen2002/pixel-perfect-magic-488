@@ -17,11 +17,13 @@ import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedContributeRouteImport } from './routes/_authenticated/contribute'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedRequestRouteImport } from './routes/_authenticated/request'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminContributionsRouteImport } from './routes/_authenticated/admin/contributions'
 import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin/members'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin/requests'
+import { Route as AuthenticatedAdminStoriesRouteImport } from './routes/_authenticated/admin/stories'
 import { Route as AuthenticatedAdminTransparencyRouteImport } from './routes/_authenticated/admin/transparency'
 import { Route as AuthenticatedRequestsIdRouteImport } from './routes/_authenticated/requests.$id'
 
@@ -64,6 +66,12 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedRequestRoute = AuthenticatedRequestRouteImport.update({
   id: '/request',
   path: '/request',
@@ -92,6 +100,12 @@ const AuthenticatedAdminRequestsRoute =
     path: '/requests',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminStoriesRoute =
+  AuthenticatedAdminStoriesRouteImport.update({
+    id: '/stories',
+    path: '/stories',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminTransparencyRoute =
   AuthenticatedAdminTransparencyRouteImport.update({
     id: '/transparency',
@@ -112,10 +126,12 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/admin/stories': typeof AuthenticatedAdminStoriesRoute
   '/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
   '/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -127,10 +143,12 @@ export interface FileRoutesByTo {
   '/account': typeof AuthenticatedAccountRoute
   '/contribute': typeof AuthenticatedContributeRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/admin/stories': typeof AuthenticatedAdminStoriesRoute
   '/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
   '/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -145,10 +163,12 @@ export interface FileRoutesById {
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/contribute': typeof AuthenticatedContributeRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/request': typeof AuthenticatedRequestRoute
   '/_authenticated/admin/contributions': typeof AuthenticatedAdminContributionsRoute
   '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
+  '/_authenticated/admin/stories': typeof AuthenticatedAdminStoriesRoute
   '/_authenticated/admin/transparency': typeof AuthenticatedAdminTransparencyRoute
   '/_authenticated/requests/$id': typeof AuthenticatedRequestsIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -163,10 +183,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/contribute'
     | '/dashboard'
+    | '/notifications'
     | '/request'
     | '/admin/contributions'
     | '/admin/members'
     | '/admin/requests'
+    | '/admin/stories'
     | '/admin/transparency'
     | '/requests/$id'
     | '/admin/'
@@ -178,10 +200,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/contribute'
     | '/dashboard'
+    | '/notifications'
     | '/request'
     | '/admin/contributions'
     | '/admin/members'
     | '/admin/requests'
+    | '/admin/stories'
     | '/admin/transparency'
     | '/requests/$id'
     | '/admin'
@@ -195,10 +219,12 @@ export interface FileRouteTypes {
     | '/_authenticated/account'
     | '/_authenticated/contribute'
     | '/_authenticated/dashboard'
+    | '/_authenticated/notifications'
     | '/_authenticated/request'
     | '/_authenticated/admin/contributions'
     | '/_authenticated/admin/members'
     | '/_authenticated/admin/requests'
+    | '/_authenticated/admin/stories'
     | '/_authenticated/admin/transparency'
     | '/_authenticated/requests/$id'
     | '/_authenticated/admin/'
@@ -269,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/request': {
       id: '/_authenticated/request'
       path: '/request'
@@ -304,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRequestsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/stories': {
+      id: '/_authenticated/admin/stories'
+      path: '/stories'
+      fullPath: '/admin/stories'
+      preLoaderRoute: typeof AuthenticatedAdminStoriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/transparency': {
       id: '/_authenticated/admin/transparency'
       path: '/transparency'
@@ -325,6 +365,7 @@ interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminContributionsRoute: typeof AuthenticatedAdminContributionsRoute
   AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
+  AuthenticatedAdminStoriesRoute: typeof AuthenticatedAdminStoriesRoute
   AuthenticatedAdminTransparencyRoute: typeof AuthenticatedAdminTransparencyRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
@@ -334,6 +375,7 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
     AuthenticatedAdminContributionsRoute: AuthenticatedAdminContributionsRoute,
     AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
     AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
+    AuthenticatedAdminStoriesRoute: AuthenticatedAdminStoriesRoute,
     AuthenticatedAdminTransparencyRoute: AuthenticatedAdminTransparencyRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
@@ -348,6 +390,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedContributeRoute: typeof AuthenticatedContributeRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedRequestRoute: typeof AuthenticatedRequestRoute
   AuthenticatedRequestsIdRoute: typeof AuthenticatedRequestsIdRoute
 }
@@ -357,6 +400,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedContributeRoute: AuthenticatedContributeRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedRequestRoute: AuthenticatedRequestRoute,
   AuthenticatedRequestsIdRoute: AuthenticatedRequestsIdRoute,
 }
