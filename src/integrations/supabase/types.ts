@@ -65,6 +65,7 @@ export type Database = {
           created_at: string
           id: string
           method: string
+          recurrence: string
           reference: string | null
           status: string
           user_id: string
@@ -74,6 +75,7 @@ export type Database = {
           created_at?: string
           id?: string
           method?: string
+          recurrence?: string
           reference?: string | null
           status?: string
           user_id: string
@@ -83,6 +85,7 @@ export type Database = {
           created_at?: string
           id?: string
           method?: string
+          recurrence?: string
           reference?: string | null
           status?: string
           user_id?: string
@@ -209,6 +212,39 @@ export type Database = {
         }
         Relationships: []
       }
+      impact_stories: {
+        Row: {
+          body: string
+          county: string | null
+          created_at: string
+          id: string
+          person_label: string | null
+          published: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          county?: string | null
+          created_at?: string
+          id?: string
+          person_label?: string | null
+          published?: boolean
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          county?: string | null
+          created_at?: string
+          id?: string
+          person_label?: string | null
+          published?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kenya_locations: {
         Row: {
           county: string
@@ -233,6 +269,36 @@ export type Database = {
           subcounty?: string
           village?: string
           ward?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
         }
         Relationships: []
       }
