@@ -44,6 +44,18 @@ function Transparency() {
     },
   });
 
+  const stories = useQuery({
+    queryKey: ["impact-stories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("impact_stories")
+        .select("id, title, body, county, person_label, created_at")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const rows = [
     { label: "Total contributed by members", value: formatKes(stats?.total_contributed) },
     { label: "Number of contributions", value: String(stats?.contribution_count ?? 0) },
@@ -94,6 +106,29 @@ function Transparency() {
             </div>
           ))}
         </div>
+
+        {(stories.data ?? []).length > 0 && (
+          <section className="mt-10">
+            <p className="eyebrow">Impact stories</p>
+            <h2 className="mt-2 text-2xl font-bold">Lives the community has lifted</h2>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Shared with each person's consent. Names are never published.
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {(stories.data ?? []).map((story) => (
+                <article key={story.id} className="surface-card p-5">
+                  <h3 className="text-base font-semibold">{story.title}</h3>
+                  {(story.person_label || story.county) && (
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-primary">
+                      {[story.person_label, story.county].filter(Boolean).join(" · ")}
+                    </p>
+                  )}
+                  <p className="mt-2 text-sm text-muted-foreground">{story.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );
