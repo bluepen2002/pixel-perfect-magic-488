@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
-import { LIFT1, REQUEST_STATUS_LABELS, formatKes, statusTone } from "@/lib/lift1";
+import { LIFT1, RECURRENCE_LABELS, REQUEST_STATUS_LABELS, formatKes, statusTone } from "@/lib/lift1";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -112,6 +113,18 @@ function Dashboard() {
         </div>
       </div>
 
+      <div className="surface-card mt-5 flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center sm:p-5">
+        <div>
+          <h2 className="text-lg font-semibold">Invite a friend</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            The community grows one person at a time. Share Lift1 with someone you know.
+          </p>
+        </div>
+        <Button variant="secondary" className="w-full sm:w-auto" onClick={shareLift1}>
+          Share Lift1
+        </Button>
+      </div>
+
       <section className="mt-7">
         <h2 className="text-lg font-semibold">My assistance requests</h2>
         <p className="mt-1 text-xs text-muted-foreground">
@@ -159,13 +172,37 @@ function Dashboard() {
                   {new Date(c.created_at).toLocaleString("en-KE")}
                 </p>
               </div>
-              <Badge variant="outline">{c.status === "RECORDED" ? "Recorded" : c.status}</Badge>
+              <div className="flex items-center gap-1.5">
+                {c.recurrence && c.recurrence !== "ONE_TIME" && (
+                  <Badge variant="secondary">{RECURRENCE_LABELS[c.recurrence] ?? c.recurrence}</Badge>
+                )}
+                <Badge variant="outline">{c.status === "RECORDED" ? "Recorded" : c.status}</Badge>
+              </div>
             </div>
           ))}
         </div>
       </section>
     </AppShell>
   );
+}
+
+async function shareLift1() {
+  const url = window.location.origin;
+  const text = "Join me on Lift1 — one shilling at a time, we lift a life. " + url;
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: "Lift1 — Lift a Life", text, url });
+      return;
+    } catch {
+      return; // user dismissed the share sheet
+    }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success("Link copied — send it to a friend.");
+  } catch {
+    toast.error("Could not share. Copy the address from your browser instead.");
+  }
 }
 
 function StatCard({
