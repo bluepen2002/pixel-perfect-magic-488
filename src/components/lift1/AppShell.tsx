@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Bell } from "lucide-react";
 import type { ReactNode } from "react";
 import { Brand } from "./Brand";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,19 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: isAdmin } = useIsAdmin();
+
+  const { data: unreadCount } = useQuery({
+    queryKey: ["notifications-unread"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .is("read_at", null);
+      if (error) return 0;
+      return count ?? 0;
+    },
+    refetchInterval: 60_000,
+  });
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -44,6 +58,16 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <Button asChild variant="ghost" size="icon" className="relative" aria-label="Notifications">
+              <Link to="/notifications">
+                <Bell className="h-4 w-4" />
+                {(unreadCount ?? 0) > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[0.6rem] font-bold text-accent-foreground">
+                    {unreadCount}
+                  </span>
+                )}
+              </Link>
+            </Button>
             {isAdmin && (
               <Button asChild size="sm" variant="secondary">
                 <Link to="/admin">Admin</Link>
