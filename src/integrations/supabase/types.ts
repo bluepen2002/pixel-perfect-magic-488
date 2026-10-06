@@ -212,6 +212,36 @@ export type Database = {
         }
         Relationships: []
       }
+      home_media: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          kind: string
+          published: boolean
+          sort_order: number
+          storage_path: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          published?: boolean
+          sort_order?: number
+          storage_path: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          published?: boolean
+          sort_order?: number
+          storage_path?: string
+        }
+        Relationships: []
+      }
       impact_stories: {
         Row: {
           body: string

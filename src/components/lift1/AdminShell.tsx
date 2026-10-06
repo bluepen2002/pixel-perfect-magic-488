@@ -12,6 +12,7 @@ const ADMIN_NAV = [
   { to: "/admin/requests", label: "Requests" },
   { to: "/admin/transparency", label: "Content" },
   { to: "/admin/stories", label: "Stories" },
+  { to: "/admin/media", label: "Media" },
 ] as const;
 
 export function AdminShell({

@@ -5,6 +5,32 @@ import { Button } from "@/components/ui/button";
 import { LIFT1, formatKes } from "@/lib/lift1";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
 import { useAuth } from "@/hooks/useAuth";
+import { useHomeMedia } from "@/hooks/useHomeMedia";
+
+function HomeGallery() {
+  const { data } = useHomeMedia();
+  if (!data?.length) return null;
+  return (
+    <section className="mx-auto max-w-6xl px-4 pt-12">
+      <h2 className="text-2xl font-bold sm:text-3xl">From our community</h2>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {data.map((m) => (
+          <figure key={m.id} className="surface-card overflow-hidden">
+            <div className="aspect-video bg-muted">
+              {m.url &&
+                (m.kind === "video" ? (
+                  <video src={m.url} controls playsInline preload="metadata" className="h-full w-full object-cover" />
+                ) : (
+                  <img src={m.url} alt={m.caption ?? "Lift1 community"} loading="lazy" className="h-full w-full object-cover" />
+                ))}
+            </div>
+            {m.caption && <figcaption className="p-4 text-sm text-muted-foreground">{m.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -112,6 +138,8 @@ function Landing() {
           </div>
         </div>
       </section>
+
+      <HomeGallery />
 
       <section className="mx-auto max-w-6xl px-4 pb-16 pt-16">
         <h2 className="text-2xl font-bold sm:text-3xl">How Lift1 works</h2>
