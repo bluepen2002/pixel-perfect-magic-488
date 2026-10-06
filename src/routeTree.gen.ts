@@ -21,6 +21,7 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as AuthenticatedRequestRouteImport } from './routes/_authenticated/request'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminContributionsRouteImport } from './routes/_authenticated/admin/contributions'
+import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminMembersRouteImport } from './routes/_authenticated/admin/members'
 import { Route as AuthenticatedAdminRequestsRouteImport } from './routes/_authenticated/admin/requests'
 import { Route as AuthenticatedAdminStoriesRouteImport } from './routes/_authenticated/admin/stories'
@@ -88,6 +89,11 @@ const AuthenticatedAdminContributionsRoute =
     path: '/contributions',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
 const AuthenticatedAdminMembersRoute =
   AuthenticatedAdminMembersRouteImport.update({
     id: '/members',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/stories': typeof AuthenticatedAdminStoriesRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/request': typeof AuthenticatedRequestRoute
   '/admin/contributions': typeof AuthenticatedAdminContributionsRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/members': typeof AuthenticatedAdminMembersRoute
   '/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/admin/stories': typeof AuthenticatedAdminStoriesRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/request': typeof AuthenticatedRequestRoute
   '/_authenticated/admin/contributions': typeof AuthenticatedAdminContributionsRoute
+  '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/members': typeof AuthenticatedAdminMembersRoute
   '/_authenticated/admin/requests': typeof AuthenticatedAdminRequestsRoute
   '/_authenticated/admin/stories': typeof AuthenticatedAdminStoriesRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/request'
     | '/admin/contributions'
+    | '/admin/media'
     | '/admin/members'
     | '/admin/requests'
     | '/admin/stories'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/request'
     | '/admin/contributions'
+    | '/admin/media'
     | '/admin/members'
     | '/admin/requests'
     | '/admin/stories'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/request'
     | '/_authenticated/admin/contributions'
+    | '/_authenticated/admin/media'
     | '/_authenticated/admin/members'
     | '/_authenticated/admin/requests'
     | '/_authenticated/admin/stories'
@@ -323,6 +335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminContributionsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/media': {
+      id: '/_authenticated/admin/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/members': {
       id: '/_authenticated/admin/members'
       path: '/members'
@@ -363,6 +382,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminContributionsRoute: typeof AuthenticatedAdminContributionsRoute
+  AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminMembersRoute: typeof AuthenticatedAdminMembersRoute
   AuthenticatedAdminRequestsRoute: typeof AuthenticatedAdminRequestsRoute
   AuthenticatedAdminStoriesRoute: typeof AuthenticatedAdminStoriesRoute
@@ -373,6 +393,7 @@ interface AuthenticatedAdminRouteRouteChildren {
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
     AuthenticatedAdminContributionsRoute: AuthenticatedAdminContributionsRoute,
+    AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
     AuthenticatedAdminMembersRoute: AuthenticatedAdminMembersRoute,
     AuthenticatedAdminRequestsRoute: AuthenticatedAdminRequestsRoute,
     AuthenticatedAdminStoriesRoute: AuthenticatedAdminStoriesRoute,
