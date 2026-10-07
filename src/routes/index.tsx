@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/community-hero.jpg";
 import { Brand } from "@/components/lift1/Brand";
@@ -185,7 +186,7 @@ function Landing() {
   );
 }
 
-function StatTile({ label, value, icon, dark }: { label: string; value: string; icon: React.ReactNode; dark?: boolean }) {
+function StatTile({ label, value, icon, dark }: { label: string; value: string; icon: ReactNode; dark?: boolean }) {
   return (
     <div
       className={`flex aspect-square flex-col justify-between rounded-3xl p-5 md:aspect-auto ${
