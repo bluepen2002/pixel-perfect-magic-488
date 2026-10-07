@@ -61,13 +61,13 @@ function Contribute() {
   return (
     <AppShell>
       <p className="eyebrow">Contribute</p>
-      <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">Lift someone today</h1>
+      <h1 className="mt-1.5 text-2xl font-extrabold text-primary sm:text-3xl">Lift someone today</h1>
       <p className="mt-2 max-w-xl text-sm text-muted-foreground">
         Choose any amount. Contributions go to the community fund and are never counted as
         business revenue.
       </p>
 
-      <div className="surface-card mt-5 max-w-xl p-4 sm:p-6">
+      <div className="surface-card mt-5 max-w-xl sm:p-7 p-4 sm:p-6">
         <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
           {LIFT1.suggestedAmounts.map((value) => (
             <button
@@ -126,7 +126,7 @@ function Contribute() {
           )}
         </div>
 
-        <div className="mt-6 rounded-2xl bg-muted p-4 text-sm">
+        <div className="mt-6 rounded-3xl bg-background p-4 text-sm">
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Your contribution</span>
             <span className="font-semibold">{formatKes(amount)}</span>

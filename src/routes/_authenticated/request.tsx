@@ -73,14 +73,14 @@ function RequestLift() {
   return (
     <AppShell>
       <p className="eyebrow">Request a lift</p>
-      <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">Tell us what you're facing</h1>
+      <h1 className="mt-1.5 text-2xl font-extrabold text-primary sm:text-3xl">Tell us what you're facing</h1>
       <p className="mt-2 max-w-xl text-sm text-muted-foreground">
         Requests are reviewed against clear need and priority criteria. Please be honest and
         specific — it helps reviewers understand your situation.
       </p>
 
       <form
-        className="surface-card mt-5 max-w-xl space-y-4 p-4 sm:p-6"
+        className="surface-card mt-5 max-w-xl sm:p-7 space-y-4 p-4 sm:p-6"
         onSubmit={(e) => {
           e.preventDefault();
           submit.mutate();
