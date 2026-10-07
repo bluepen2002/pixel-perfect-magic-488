@@ -76,7 +76,7 @@ function Dashboard() {
   return (
     <AppShell>
       <p className="eyebrow">{LIFT1.tagline}</p>
-      <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">
+      <h1 className="mt-1.5 text-2xl font-extrabold text-primary sm:text-3xl">
         Karibu{profile.data?.first_name ? `, ${profile.data.first_name}` : ""}
       </h1>
       <p className="mt-1.5 text-sm text-muted-foreground">{LIFT1.philosophy}</p>
@@ -89,9 +89,9 @@ function Dashboard() {
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="surface-card flex flex-col justify-between gap-4 p-4 sm:p-5">
+        <div className="flex flex-col justify-between gap-4 rounded-3xl bg-accent p-5 text-accent-foreground">
           <div>
-            <h2 className="text-lg font-semibold">Lift someone today</h2>
+            <h2 className="text-lg font-extrabold">Lift someone today</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Give from {formatKes(LIFT1.baseContribution)}. Every shilling is recorded.
             </p>
@@ -126,7 +126,7 @@ function Dashboard() {
       </div>
 
       <section className="mt-7">
-        <h2 className="text-lg font-semibold">My assistance requests</h2>
+        <h2 className="text-lg font-extrabold text-primary">My assistance requests</h2>
         <p className="mt-1 text-xs text-muted-foreground">
           Tap a request to follow the review and see the outcome.
         </p>
@@ -159,7 +159,7 @@ function Dashboard() {
       </section>
 
       <section className="mt-7">
-        <h2 className="text-lg font-semibold">My contribution history</h2>
+        <h2 className="text-lg font-extrabold text-primary">My contribution history</h2>
         <div className="surface-card mt-3 divide-y divide-border">
           {(mine.data?.contributions ?? []).length === 0 && (
             <p className="p-4 text-sm text-muted-foreground sm:p-5">No contributions yet.</p>
@@ -218,14 +218,14 @@ function StatCard({
     <div
       className={
         highlight
-          ? "rounded-2xl bg-gradient-lift p-5 text-primary-foreground shadow-lift"
-          : "surface-card p-5"
+          ? "flex aspect-[4/3] flex-col justify-between rounded-3xl bg-primary p-5 text-primary-foreground"
+          : "surface-card flex aspect-[4/3] flex-col justify-between p-5"
       }
     >
       <p
         className={
           highlight
-            ? "text-[0.65rem] font-bold uppercase tracking-widest text-primary-foreground/80"
+            ? "text-[0.65rem] font-bold uppercase tracking-widest text-primary-foreground/70"
             : "text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground"
         }
       >

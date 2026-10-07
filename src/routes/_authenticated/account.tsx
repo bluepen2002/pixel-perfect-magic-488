@@ -82,9 +82,9 @@ function Account() {
   return (
     <AppShell>
       <p className="eyebrow">My account</p>
-      <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">Your member details</h1>
+      <h1 className="mt-1.5 text-2xl font-extrabold text-primary sm:text-3xl">Your member details</h1>
 
-      <div className="surface-card mt-5 max-w-xl space-y-4 p-4 sm:p-6">
+      <div className="surface-card mt-5 max-w-xl sm:p-7 space-y-4 p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Verification status</span>
           <Badge variant="secondary">
