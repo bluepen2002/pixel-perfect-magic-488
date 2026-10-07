@@ -12,11 +12,11 @@ function HomeGallery() {
   const { data } = useHomeMedia();
   if (!data?.length) return null;
   return (
-    <section className="mx-auto max-w-6xl px-4 pt-12">
-      <h2 className="text-2xl font-bold sm:text-3xl">From our community</h2>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="pt-10">
+      <h2 className="px-1 text-xl font-extrabold text-primary sm:text-2xl">From our community</h2>
+      <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {data.map((m) => (
-          <figure key={m.id} className="surface-card overflow-hidden">
+          <figure key={m.id} className="overflow-hidden rounded-3xl border border-primary/5 bg-card">
             <div className="aspect-video bg-muted">
               {m.url &&
                 (m.kind === "video" ? (
