@@ -56,7 +56,7 @@ function Notifications() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="eyebrow">Notifications</p>
-          <h1 className="mt-1.5 text-2xl font-bold sm:text-3xl">Updates for you</h1>
+          <h1 className="mt-1.5 text-2xl font-extrabold text-primary sm:text-3xl">Updates for you</h1>
           <p className="mt-1.5 text-sm text-muted-foreground">
             Every step on your assistance requests, in one place.
           </p>
@@ -73,15 +73,15 @@ function Notifications() {
         )}
       </div>
 
-      <div className="surface-card mt-5 divide-y divide-border">
+      <div className="mt-5 space-y-3">
         {(notifications.data ?? []).length === 0 && (
-          <p className="p-4 text-sm text-muted-foreground sm:p-5">
+          <p className="surface-card p-5 text-sm text-muted-foreground">
             Nothing yet. When a request you submitted changes status, you'll see it here.
           </p>
         )}
         {(notifications.data ?? []).map((n) => {
           const inner = (
-            <div className="flex items-start gap-3 p-4 sm:p-5">
+            <div className={`flex items-start gap-3 rounded-3xl p-4 sm:p-5 ${n.read_at ? "surface-card" : "bg-secondary"}`}>
               <span
                 className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
                   n.read_at ? "bg-border" : "bg-primary"
@@ -97,7 +97,7 @@ function Notifications() {
             </div>
           );
           return n.link ? (
-            <Link key={n.id} to={n.link} className="block transition-colors hover:bg-muted/50">
+            <Link key={n.id} to={n.link} className="block transition-transform hover:-translate-y-0.5">
               {inner}
             </Link>
           ) : (
