@@ -7,6 +7,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
 import { LIFT1, RECURRENCE_LABELS, REQUEST_STATUS_LABELS, formatKes, statusTone } from "@/lib/lift1";
 import { toast } from "sonner";
+import { useState } from "react";
+import { ReceiptDialog, type ReceiptContribution } from "@/components/lift1/ReceiptDialog";
+import { WelcomeSlides } from "@/components/lift1/WelcomeSlides";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -165,11 +168,16 @@ function Dashboard() {
             <p className="p-4 text-sm text-muted-foreground sm:p-5">No contributions yet.</p>
           )}
           {(mine.data?.contributions ?? []).map((c) => (
-            <div key={c.id} className="flex items-center justify-between gap-4 p-4 sm:p-5">
+            <button
+              type="button"
+              key={c.id}
+              onClick={() => setReceipt(c)}
+              className="flex w-full items-center justify-between gap-4 p-4 text-left transition-colors hover:bg-muted/50 sm:p-5"
+            >
               <div>
                 <p className="font-semibold">{formatKes(c.amount_kes)}</p>
                 <p className="text-xs text-muted-foreground">
-                  {new Date(c.created_at).toLocaleString("en-KE")}
+                  {new Date(c.created_at).toLocaleString("en-KE")} · Tap for receipt
                 </p>
               </div>
               <div className="flex items-center gap-1.5">
@@ -178,10 +186,12 @@ function Dashboard() {
                 )}
                 <Badge variant="outline">{c.status === "RECORDED" ? "Recorded" : c.status}</Badge>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </section>
+      <ReceiptDialog contribution={receipt} onClose={() => setReceipt(null)} />
+      <WelcomeSlides />
     </AppShell>
   );
 }
