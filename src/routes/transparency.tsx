@@ -6,6 +6,7 @@ import { formatKes } from "@/lib/lift1";
 import { supabase } from "@/integrations/supabase/client";
 import { useCommunityStats } from "@/hooks/useCommunityStats";
 import { useAuth } from "@/hooks/useAuth";
+import { fundBreakdown } from "@/lib/insights";
 
 export const Route = createFileRoute("/transparency")({
   head: () => ({
@@ -65,6 +66,8 @@ function Transparency() {
     { label: "Assistance sent out", value: formatKes(stats?.total_disbursed) },
   ];
 
+  const fund = fundBreakdown(stats?.total_contributed, stats?.total_disbursed);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="mx-auto flex max-w-4xl items-center justify-between px-4 py-5">
@@ -78,13 +81,36 @@ function Transparency() {
 
       <main className="mx-auto max-w-4xl px-4 pb-20">
         <p className="eyebrow">Transparency</p>
-        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">The community numbers</h1>
+        <h1 className="mt-2 text-3xl font-extrabold text-primary sm:text-4xl">The community numbers</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Money contributed by the community is tracked separately from Lift1's operating business
           revenue. Nothing is deducted from contributions unless it is disclosed here.
         </p>
 
-        <div className="surface-card mt-8 divide-y divide-border">
+        <section className="mt-8 rounded-3xl bg-primary p-5 text-primary-foreground sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-widest opacity-80">How the money is used</p>
+          <p className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
+            {isLoading ? "—" : formatKes(fund.contributed)}
+          </p>
+          <p className="text-sm opacity-80">in the community fund so far</p>
+          <div className="mt-5 flex h-4 overflow-hidden rounded-full bg-primary-foreground/20">
+            <div className="h-full bg-accent" style={{ width: `${fund.sentPct}%` }} />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-primary-foreground/10 p-4">
+              <p className="flex items-center gap-2 text-xs opacity-80"><span className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent" />Sent to people in need</p>
+              <p className="mt-1 font-display text-xl font-extrabold">{formatKes(fund.sent)}</p>
+              <p className="text-xs opacity-80">{fund.sentPct}%</p>
+            </div>
+            <div className="rounded-2xl bg-primary-foreground/10 p-4">
+              <p className="flex items-center gap-2 text-xs opacity-80"><span className="h-2.5 w-2.5 shrink-0 rounded-full bg-primary-foreground/40" />Still held for the community</p>
+              <p className="mt-1 font-display text-xl font-extrabold">{formatKes(fund.held)}</p>
+              <p className="text-xs opacity-80">{fund.heldPct}%</p>
+            </div>
+          </div>
+        </section>
+
+        <div className="surface-card mt-5 divide-y divide-border">
           {rows.map((row) => (
             <div
               key={row.label}
@@ -110,7 +136,7 @@ function Transparency() {
         {(stories.data ?? []).length > 0 && (
           <section className="mt-10">
             <p className="eyebrow">Impact stories</p>
-            <h2 className="mt-2 text-2xl font-bold">Lives the community has lifted</h2>
+            <h2 className="mt-2 text-2xl font-extrabold text-primary">Lives the community has lifted</h2>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Shared with each person's consent. Names are never published.
             </p>

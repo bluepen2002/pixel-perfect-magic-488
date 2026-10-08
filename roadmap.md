@@ -11,6 +11,8 @@
 - [x] Invite a friend: share card on dashboard (Web Share API + clipboard fallback) (2026-10-05)
 - [x] In-app notifications: notifications table, trigger on request_status_events, bell with unread count in AppShell, /notifications page (2026-10-05)
 
+- [x] Fund breakdown, admin review queue (7+ day flag), welcome slides, modern look on Transparency/Notifications/admin, contribution receipts (2026-10-07)
+
 ## Later (from spec, not yet built)
 - KYC provider abstraction
 - Email/push notifications, audit logging, legal review gate
