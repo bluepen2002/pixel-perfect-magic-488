@@ -32,7 +32,7 @@ export function WelcomeSlides() {
   }
 
   if (!open) return null;
-  const slide = SLIDES[step];
+  const slide = SLIDES[step] ?? SLIDES[0]!;
   const last = step === SLIDES.length - 1;
 
   return (
