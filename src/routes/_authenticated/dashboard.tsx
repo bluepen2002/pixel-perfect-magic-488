@@ -29,6 +29,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 function Dashboard() {
   const { data: stats } = useCommunityStats();
 
+  const [receipt, setReceipt] = useState<ReceiptContribution | null>(null);
   const profile = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {

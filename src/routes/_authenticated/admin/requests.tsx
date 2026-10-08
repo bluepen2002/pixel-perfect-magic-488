@@ -133,15 +133,32 @@ function AdminRequests() {
     setApproved(row.approved === null ? "" : String(row.approved));
   }
 
-  const rows = (requests.data ?? []).filter((r) => filter === "ALL" || r.status === filter);
+  const rows = (requests.data ?? [])
+    .filter((r) =>
+      filter === "ALL" ? true : filter === "QUEUE" ? OPEN_REQUEST_STATUSES.includes(r.status) : r.status === filter,
+    )
+    .sort((a, b) => {
+      if (filter !== "QUEUE") return 0;
+      return a.created_at < b.created_at ? -1 : 1;
+    });
+  const overdueCount = (requests.data ?? []).filter((r) => isOverdue(r.status, r.created_at)).length;
 
   return (
     <AdminShell
       title="Assistance requests"
       subtitle="Assess genuine need against published criteria. No draws, no winners."
     >
+      {overdueCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setFilter("QUEUE")}
+          className="mb-3 w-full rounded-3xl bg-accent p-4 text-left text-sm font-semibold text-accent-foreground"
+        >
+          {overdueCount} request{overdueCount === 1 ? " has" : "s have"} waited {OVERDUE_DAYS}+ days for a decision — open the review queue
+        </button>
+      )}
       <div className="flex flex-wrap gap-2">
-        {["ALL", ...REQUEST_STATUSES].map((value) => (
+        {["QUEUE", "ALL", ...REQUEST_STATUSES].map((value) => (
           <button
             key={value}
             type="button"
@@ -152,7 +169,7 @@ function AdminRequests() {
                 : "rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-secondary"
             }
           >
-            {value === "ALL" ? "All" : (REQUEST_STATUS_LABELS[value] ?? value)}
+            {value === "ALL" ? "All" : value === "QUEUE" ? "Review queue (oldest first)" : (REQUEST_STATUS_LABELS[value] ?? value)}
           </button>
         ))}
       </div>
@@ -170,6 +187,11 @@ function AdminRequests() {
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="font-semibold">{row.title}</p>
                   {row.sample && <Badge variant="outline">Sample</Badge>}
+                  {isOverdue(row.status, row.created_at) && (
+                    <span className="rounded-full bg-destructive/10 px-2.5 py-0.5 text-xs font-semibold text-destructive">
+                      Waiting {daysWaiting(row.created_at)} days
+                    </span>
+                  )}
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {row.member} · {row.category} · {row.place} ·{" "}
